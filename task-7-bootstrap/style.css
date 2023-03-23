@@ -1,0 +1,78 @@
+
+.navbar{
+    background-color:#9fd3c7;
+}
+img{
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+}
+.form{
+    float: left;
+    width: 10px;
+}
+.container-fluid{
+    background-color: #9fd3;
+}
+.first{
+    padding: 5px;
+}
+.second{
+    padding: 5px;
+}
+.third{
+    padding: 5px;
+}
+.five{
+    padding-top: 30px;
+}
+.six{
+    padding-top: 30px;
+}
+.seven{
+    padding-top: 30px;
+}
+
+.eight{
+    padding-top: 30px;
+}
+.nine{
+    width: 5%;
+}
+
+.container .card-header span {
+    padding-left: 100px;
+}
+
+.card-text {
+    text-align: center;
+}
+
+.card-title {
+    text-align: center;
+}
+
+.card-header {
+    text-align: left;
+    font-size: small;
+}
+
+.row {
+    padding-bottom: 30px;
+}
+hr{
+    color: white;
+    border: solid;
+    width: auto;
+   
+}
+#sidebarMenu{
+    width: 50px;
+}
+.date{
+    float: right;
+}
+.nine{
+    padding-bottom: 400px;
+}
