@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
+    <form>
     <lable for="Meicare no.">Medicare no. :</lable>
     <input type="number" name="Medicare no.">
     /
@@ -36,10 +37,10 @@
     <input type="date">
     <br>
     <lable for="sex">sex :</lable>
-    <input type="radio" name="Male">
-    Male 
-    <input type="radio" name="Female">
-    Female
+    <input type="radio" id="male" name="fav_language" value="Male">
+    <label for="male">Male</label>
+    <input type="radio" id="female" name="fav_language" value="Female">
+    <label for="female">Female</label>
     <br>
     <lable for="Family name">Family name :</lable>
     <input type="text" >
@@ -113,5 +114,6 @@
     <br>
     <button name="Submit">Submit</button>
     <button type="reset">Clear</button>
+</form>
 </body>
 </html>
