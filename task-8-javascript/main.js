@@ -16,19 +16,19 @@ const colors = [
     document.getElementById("error").innerHTML = "";
     if (!Number.isInteger(Number(number)) || !Number.isInteger(Number(times))) {
       document.getElementById("error").innerHTML =
-        "Error: " + "Please enter only integer value.";
+        "Error: " + "Please enter integer value.";
       return;
     }
     let n = parseInt(number);
     let m = parseInt(times);
     if (m > n) {
       document.getElementById("error").innerHTML =
-        "Error: " + "Splits should not be greater than than Inputnumber";
+        "Error: " + "Times should not be greater than than number";
       return;
     }
     if (m <= 0) {
       document.getElementById("error").innerHTML =
-        "Error: " + "Splits should be a Positive Number";
+        "Error: " + "Times should be a Positive Number";
       return;
     }
   
@@ -40,8 +40,13 @@ const colors = [
       const div = document.createElement("div");
       div.innerHTML = eachSplit;
       div.style.display = "inline-block";
-      div.style.width = `${100 / times}%`;
+      div.style.width = `${(eachSplit / n) * 100}%`;
       div.style.backgroundColor = colors[i % colors.length];
+      div.style.border = "1px solid black";
+      div.style.height = "30%";
+      div.style.fontSize = "2em";
+      div.style.textAlign = "center";
+
   
       result.appendChild(div);
     }

@@ -21,3 +21,7 @@
 div {
     box-sizing: border-box;
   }
+  .button{
+    background-color: blue;
+    border-radius: 10%;
+  }
