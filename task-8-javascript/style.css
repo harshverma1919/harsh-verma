@@ -1,0 +1,21 @@
+.container{
+    background-color: #f1e0e0;
+    padding: 10px;
+    margin-bottom: 4px;
+    margin: 2px;
+    width: 100%;
+}
+
+#number {
+    width: 100%;
+    padding-bottom: 2px;
+}
+
+#times {
+    width: 100%;
+}
+
+#result {
+    margin-top: 50px;
+    height: 350px;
+}
