@@ -1,13 +1,13 @@
 
 .second{
-    background-color: blue;
+    background-color: #262A56;
     text-align: center;
     width: 300px;
     height: 900px;
     float: right;
 }
 h3{
-    color: rgb(5, 143, 113);
+    color: rgba(14, 82, 65, 0.899);
     padding-left: 10px;
 }
 .first{
@@ -51,8 +51,8 @@ p>span.fo{
     line-height: 2;
 }
 .third{
-    background-color: rgb(40, 79, 142);
-    height: 900px;
+    background-color: #19376D;
+    height: 1100px;
 }
 .fo{
     float: left;
@@ -60,7 +60,7 @@ p>span.fo{
 .ii{
     width: 100%;
     overflow: auto;
-    background-color: blue;
+    background-color: #B9E9FC;
 }
 progress{
     background-color: #eee;
@@ -72,4 +72,22 @@ progress{
 }
 .x{
     color: aliceblue;
+}
+.container{
+    margin-left: 200px;
+    margin-right: 200px;
+}
+.date{
+    float: right;
+}
+.exp-appfoster{
+    color: black;
+}
+.ex-date{
+    float: right;
+    padding-right: 20px;
+    padding-top: 20px;
+}
+p{
+    align-items: center;
 }
