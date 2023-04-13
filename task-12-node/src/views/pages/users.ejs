@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+     <script src="https://kit.fontawesome.com/9fad20195a.js" crossorigin="anonymous"></script>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+  <div class="jumbotron">
+    <h1>Users</h1>
+    
+  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr class="text-center">
+        
+        <th scope="col">User name</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody id="table_body">
+      
+    </tbody>
+  </table>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Edit & Add</h1>
+          <br>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modal-data">
+            
+        </div>
+        <div class="modal-body" id="modal-data">
+          <div>
+            <p><strong>Project: </strong> <span id="project"></span></p>
+            <input type="text" class="form-control" id="editProjectInput" placeholder="Enter Project">
+          </div>
+        </div>
+        
+        
+        <div class="modal-footer">
+          <div class="" id="modal-data-edit-btn"></div>
+          <!-- <button type="button" class="btn btn-secondary"  onClick="handleClickPut(values.id)">Close</button> -->
+
+          
+        </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+  let AllData = {}
+  fetch("http://localhost:3000/api/users").then((data)=>{
+    //console.log(data);
+    return data.json(); // Converted to object
+}).then((objectData)=>{
+ //   console.log(objectData[0]);
+    let tableData="";
+    AllData = objectData;
+    objectData.map((values)=>{
+        tableData +=`<tr class="text-center">
+           
+        <td class="text-center">${values.name}</td>
+        <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick="handleClickModal(${values.id})">
+            <i class="fa-solid fa-eye"></i>
+          </button></td>
+      </tr>`;
+      
+    });
+    document.getElementById("table_body").innerHTML=tableData;
+}).catch((error)=>{
+    console.log(error);
+});
+handleClickModal=(ValueId)=>{
+let showData = `<div>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick="handleClickModalEdited(${ValueId})">Update</button>
+            </div>`
+
+            console.log(showData);
+    document.getElementById("modal-data-edit-btn").innerHTML=showData;
+} 
+
+handleClickModalEdited=(recordId)=>{
+  fetch(`http://localhost:3000/api/users/${recordId}`, {
+      method: 'Put',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+       "name": document.getElementById("editProjectInput").value,
+    }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('data-------'+JSON.stringify(data));
+        location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+}
+
+
+
+</script>
+</main>
+
+<footer>
+  <a href="http://localhost:3000/host/user/:userId/projects" target="_blank">Next Page</a>
+  <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>

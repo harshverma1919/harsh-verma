@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+     <script src="https://kit.fontawesome.com/9fad20195a.js" crossorigin="anonymous"></script>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+  <div class="jumbotron">
+    <h1>Projects</h1>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr class="text-center">
+        <th scope="col">ID</th>
+        <th scope="col">ProjectId</th>
+        <th scope="col">Projects</th>
+        <th scope="col">Delete</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Add</th>
+      </tr>
+    </thead>
+    <tbody id="table_body">
+      
+    </tbody>
+  </table>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Edit & Add</h1>
+          <br>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modal-data">
+            
+        </div>
+        <div class="modal-body" id="modal-data">
+          <div>
+            <p><strong>Project: </strong> <span id="project"></span></p>
+            <input type="text" class="form-control" id="editProjectInput" placeholder="Enter Project">
+          </div>
+        </div>
+        
+        
+        <div class="modal-footer">
+          <div class="" id="modal-data-edit-btn"></div>
+          <!-- <button type="button" class="btn btn-secondary"  onClick="handleClickPut(values.id)">Close</button> -->
+
+          
+        </div>
+        <div class="" id="modal-data-create-btn"></div>
+          <!-- <button type="button" class="btn btn-secondary"  onClick="handleClickPut(values.id)">Close</button> -->
+
+          
+        </div>
+        <!-- <div class="" id="modal-data-add-btn"></div> -->
+        
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+  let AllData = {}
+
+
+fetch("http://localhost:3000/api/projects").then((data)=>{
+    //console.log(data);
+    return data.json(); // Converted to object
+}).then((objectData)=>{
+ //   console.log(objectData[0]);
+    let tableData="";
+    AllData = objectData;
+    objectData.map((values)=>{
+        tableData +=`<tr class="text-center">
+        <td class="text-center">${values.id}</td>
+        <td class="text-center">${values.ProjectId}</td>
+        <td class="text-center">${values.Projects}</td>
+        <td class="text-center"><button type="button" class="btn btn-primary"  onClick="handleClick(${values.id})">Delete<i class="fa-sharp fa-solid fa-trash"></i></button></td>
+        <td class="text-center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick="handleClickModal(${values.id})" >Edit<i class="fa-solid fa-user-pen"></i></button></td>
+        <td class="text-center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick="handleClickModalAdd(${values.ProjectId})">Add<i class="fa-regular fa-plus"></i></button></td>
+      </tr>`;
+      
+    });
+    document.getElementById("table_body").innerHTML=tableData;
+}).catch((error)=>{
+    console.log(error);
+});
+
+handleClick=(recordId)=>{
+  fetch(`http://localhost:3000/api/projects/${recordId}`, {
+      method: 'Delete',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // body: JSON.stringify({ name: updatedName }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('data-------'+JSON.stringify(data));
+        location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+}
+handleClickModal=(ValueId)=>{
+  document.getElementById('modal-data-create-btn').style.display = 'none';
+  document.getElementById('modal-data-edit-btn').style.display = 'block';
+let showData = `<div>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick="handleClickModalEdited(${ValueId})">Update</button>
+            </div>`
+
+            console.log(showData);
+    document.getElementById("modal-data-edit-btn").innerHTML=showData;
+} 
+
+handleClickModalEdited=(recordId)=>{
+  fetch(`http://localhost:3000/api/projects/${recordId}`, {
+      method: 'Put',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+       "id":recordId,
+       "Projects": document.getElementById("editProjectInput").value,
+    }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('data-------'+JSON.stringify(data));
+        location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+}
+
+handleClickModalAdd=(ValueIds)=>{
+  document.getElementById('modal-data-edit-btn').style.display = 'none';
+let showData = `<div>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick="handleClickModalAdded(${ValueIds})">Create</button>
+            </div>`
+
+            console.log(showData);
+            document.getElementById('modal-data-create-btn').style.display = 'block';
+    document.getElementById("modal-data-create-btn").innerHTML=showData;
+} 
+
+handleClickModalAdded=(recordIds)=>{
+  fetch(`http://localhost:3000/api/projects/${recordIds}`, {
+      method: 'Post',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+       "ProjectId":recordIds,
+       "Projects": document.getElementById("editProjectInput").value,
+    }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('data-------'+JSON.stringify(data));
+        location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+}
+</script>
+<footer>
+  <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>
