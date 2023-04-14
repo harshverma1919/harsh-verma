@@ -23,21 +23,21 @@ fetch("https://gorest.co.in/public/v2/users").then((data)=>{
     console.log(error);
 });
 
-handleClick=(data)=>{
-let showData = "";
-     AllData.map((each) => {
-        if(each.id == data){
-            showData = `<div>
-            <p><strong>Name: </strong> ${each.name}<span id="name"></span></p>
-                        <p><strong>Email:</strong>${each.email} <span id="email"></span></p>
-                        <p><strong>Gender: </strong> ${each.gender}<span id="gender"></span></p>
-                        <p><strong>Status: </strong> ${each.status}<span id="status"></span></p>
-            </div>`
-            return;
-        }
-    })
-    document.getElementById("modal-data").innerHTML=showData;
-}
+handleClick = (userId) => {
+    const user = AllData.find((user) => user.id === userId); // Find user object with matching ID
+    let showData = "";
+    if (user) {
+      showData = `<div>
+                  <p><strong>Name: </strong> ${user.name}<span id="name"></span></p>
+                  <p><strong>Email:</strong>${user.email} <span id="email"></span></p>
+                  <p><strong>Gender: </strong> ${user.gender}<span id="gender"></span></p>
+                  <p><strong>Status: </strong> ${user.status}<span id="status"></span></p>
+              </div>`;
+    } else {
+      showData = "No data found."; // Display message if user not found
+    }
+    document.getElementById("modal-data").innerHTML = showData;
+  };
 
 
 

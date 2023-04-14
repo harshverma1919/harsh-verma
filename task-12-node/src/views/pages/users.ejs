@@ -22,7 +22,8 @@
       <tr class="text-center">
         
         <th scope="col">User name</th>
-        <th scope="col">Action</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Projects</th>
       </tr>
     </thead>
     <tbody id="table_body">
@@ -33,7 +34,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Edit & Add</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Edit</h1>
           <br>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -74,6 +75,9 @@
            
         <td class="text-center">${values.name}</td>
         <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick="handleClickModal(${values.id})">
+          <i class="fa-solid fa-user-pen"></i>
+          </button></td>
+          <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick="handleClickModal(${values.ProjectId})">
             <i class="fa-solid fa-eye"></i>
           </button></td>
       </tr>`;
