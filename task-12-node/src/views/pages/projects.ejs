@@ -16,15 +16,21 @@
   <div class="jumbotron">
     <h1>Projects</h1>
   </div>
+  <div class=" mt-3" style="padding-bottom: 50px;">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick="handleClickModalAdd()">
+      Add
+      <i class="fa-solid fa-plus"></i>
+    </button>
+  </div>
   <table class="table table-bordered">
     <thead>
       <tr class="text-center">
-        <th scope="col">ID</th>
-        <th scope="col">ProjectId</th>
+        <!-- <th scope="col">ID</th>
+        <th scope="col">ProjectId</th> -->
         <th scope="col">Projects</th>
         <th scope="col">Delete</th>
         <th scope="col">Edit</th>
-        <th scope="col">Add</th>
+        <!-- <th scope="col">Add</th> -->
       </tr>
     </thead>
     <tbody id="table_body">
@@ -69,9 +75,15 @@
 </main>
 <script>
   let AllData = {}
+  let url = window.location.href;
+console.log('---url--'+url);
+ let projectId = url?.split('?')[1];
 
+ console.log('---projectId--'+projectId);
+    
+let fetchEndPoint = projectId != undefined ? `http://localhost:3000/api/projects/${projectId}` : 'http://localhost:3000/api/projects'
 
-fetch("http://localhost:3000/api/projects").then((data)=>{
+fetch(fetchEndPoint).then((data)=>{
     //console.log(data);
     return data.json(); // Converted to object
 }).then((objectData)=>{
@@ -80,12 +92,11 @@ fetch("http://localhost:3000/api/projects").then((data)=>{
     AllData = objectData;
     objectData.map((values)=>{
         tableData +=`<tr class="text-center">
-        <td class="text-center">${values.id}</td>
-        <td class="text-center">${values.ProjectId}</td>
+        
         <td class="text-center">${values.Projects}</td>
         <td class="text-center"><button type="button" class="btn btn-primary"  onClick="handleClick(${values.id})">Delete<i class="fa-sharp fa-solid fa-trash"></i></button></td>
         <td class="text-center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick="handleClickModal(${values.id})" >Edit<i class="fa-solid fa-user-pen"></i></button></td>
-        <td class="text-center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick="handleClickModalAdd(${values.ProjectId})">Add<i class="fa-regular fa-plus"></i></button></td>
+        
       </tr>`;
       
     });
@@ -146,7 +157,7 @@ handleClickModalEdited=(recordId)=>{
 handleClickModalAdd=(ValueIds)=>{
   document.getElementById('modal-data-edit-btn').style.display = 'none';
 let showData = `<div>
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick="handleClickModalAdded(${ValueIds})">Create</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick="handleClickModalAdded()">Create</button>
             </div>`
 
             console.log(showData);
@@ -154,14 +165,17 @@ let showData = `<div>
     document.getElementById("modal-data-create-btn").innerHTML=showData;
 } 
 
-handleClickModalAdded=(recordIds)=>{
-  fetch(`http://localhost:3000/api/projects/${recordIds}`, {
+handleClickModalAdded=()=>{
+  let url = window.location.href;
+console.log('---url--'+url);
+ let projectId = url?.split('?')[1];
+  fetch(`http://localhost:3000/api/projects/${projectId}`, {
       method: 'Post',
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-       "ProjectId":recordIds,
+       "ProjectId":projectId,
        "Projects": document.getElementById("editProjectInput").value,
     }),
     })

@@ -10,12 +10,33 @@
 
 <header>
   <%- include('../partials/header'); %>
+  <style>
+    .projectDetailBtn {
+    margin: auto;
+    border: 2px solid;
+    width: 33px;
+}
+    .projectDetailBtn a{
+      text-decoration: none;
+      border: 2px solid #0000;
+      font-weight: 600;
+      
+    }
+    button{
+      background-color: blue;
+    }
+  </style>
 </header>
 
 <main>
   <div class="jumbotron">
     <h1>Users</h1>
-    
+    <div class=" mt-3" style="padding-bottom: 50px;">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick="handleClickModalAdd()">
+        Add
+        <i class="fa-solid fa-plus"></i>
+      </button>
+    </div>
   </div>
   <table class="table table-bordered">
     <thead>
@@ -23,7 +44,8 @@
         
         <th scope="col">User name</th>
         <th scope="col">Edit</th>
-        <th scope="col">Projects</th>
+        <th scope="col">Projects</th>      
+        <!-- <th scope="col">Add</th> -->
       </tr>
     </thead>
     <tbody id="table_body">
@@ -55,6 +77,11 @@
 
           
         </div>
+        <div class="" id="modal-data-add-btn"></div>
+          <!-- <button type="button" class="btn btn-secondary"  onClick="handleClickPut(values.id)">Close</button> -->
+
+          
+        </div>
         
         
       </div>
@@ -75,11 +102,10 @@
            
         <td class="text-center">${values.name}</td>
         <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick="handleClickModal(${values.id})">
-          <i class="fa-solid fa-user-pen"></i>
-          </button></td>
-          <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick="handleClickModal(${values.ProjectId})">
             <i class="fa-solid fa-eye"></i>
           </button></td>
+          <td><div class="projectDetailBtn"><a href="http://localhost:3000/host/user/:userId/projects?${values.ProjectId}" target="_blank"><button><i class="fa-solid fa-arrow-right"></i></button></a></div></td>
+          
       </tr>`;
       
     });
@@ -116,13 +142,42 @@ handleClickModalEdited=(recordId)=>{
       });
 }
 
+handleClickModalAdd=(ValueIds)=>{
+  document.getElementById('modal-data-edit-btn').style.display = 'none';
+let showData = `<div>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick="handleClickModalAdded(${ValueIds})">Create</button>
+            </div>`
 
+            console.log(showData);
+            document.getElementById('modal-data-add-btn').style.display = 'block';
+    document.getElementById("modal-data-add-btn").innerHTML=showData;
+} 
 
+handleClickModalAdded=(recordIds)=>{
+  fetch(`http://localhost:3000/api/users/`, {
+      method: 'Post',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+     //  "ProjectId":recordIds,
+       "name": document.getElementById("editProjectInput").value,
+    }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('data-------'+JSON.stringify(data));
+        location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+}
 </script>
 </main>
 
 <footer>
-  <a href="http://localhost:3000/host/user/:userId/projects" target="_blank">Next Page</a>
+  <!-- <a href="http://localhost:3000/host/user/:userId/projects" target="_blank">Next Page</a> -->
   <%- include('../partials/footer'); %>
 </footer>
 
