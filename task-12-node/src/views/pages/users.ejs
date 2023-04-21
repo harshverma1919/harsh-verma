@@ -56,7 +56,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Edit</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Edit and Add</h1>
           <br>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -65,9 +65,11 @@
         </div>
         <div class="modal-body" id="modal-data">
           <div>
-            <p><strong>Project: </strong> <span id="project"></span></p>
-            <input type="text" class="form-control" id="editProjectInput" placeholder="Enter Project">
-          </div>
+            <p><strong>User Name: </strong> <span id="project"></span></p>
+            <input type="text" class="form-control" id="editProjectInput" placeholder="Enter User" style="margin-bottom: 30px;">
+           <!-- <div id="test1"> <input type="text" class="form-control" id="editProjectInput1" placeholder="Enter ProjectId" disabled> </div>
+          </div> -->
+          
         </div>
         
         
@@ -90,6 +92,7 @@
 </main>
 <script>
   let AllData = {}
+  let num=0;
   fetch("http://localhost:3000/api/users").then((data)=>{
     //console.log(data);
     return data.json(); // Converted to object
@@ -98,17 +101,20 @@
     let tableData="";
     AllData = objectData;
     objectData.map((values)=>{
+        num+=1;
+        
         tableData +=`<tr class="text-center">
            
         <td class="text-center">${values.name}</td>
         <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick="handleClickModal(${values.id})">
             <i class="fa-solid fa-eye"></i>
           </button></td>
-          <td><div class="projectDetailBtn"><a href="http://localhost:3000/host/user/:userId/projects?${values.ProjectId}" target="_blank"><button><i class="fa-solid fa-arrow-right"></i></button></a></div></td>
+          <td><div class="projectDetailBtn"><a href="http://localhost:3000/host/user/:userId/projects?${values.ProjectId}" ><button><i class="fa-solid fa-arrow-right"></i></button></a></div></td>
           
       </tr>`;
       
     });
+    
     document.getElementById("table_body").innerHTML=tableData;
 }).catch((error)=>{
     console.log(error);
@@ -120,6 +126,7 @@ let showData = `<div>
 
             console.log(showData);
     document.getElementById("modal-data-edit-btn").innerHTML=showData;
+    //document.getElementById("test1").style.display = 'none';
 } 
 
 handleClickModalEdited=(recordId)=>{
@@ -135,7 +142,8 @@ handleClickModalEdited=(recordId)=>{
       .then((response) => response.json())
       .then((data) => {
         console.log('data-------'+JSON.stringify(data));
-        location.reload();
+        alert("Updated Successfully");
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
@@ -144,6 +152,9 @@ handleClickModalEdited=(recordId)=>{
 
 handleClickModalAdd=(ValueIds)=>{
   document.getElementById('modal-data-edit-btn').style.display = 'none';
+
+  //let ProjectInput = `<input type="text" class="form-control" id="editProjectInput1" placeholder="Enter ProjectId">`
+ // document.getElementById("test1").style.display = 'block';
 let showData = `<div>
               <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick="handleClickModalAdded(${ValueIds})">Create</button>
             </div>`
@@ -160,14 +171,18 @@ handleClickModalAdded=(recordIds)=>{
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-     //  "ProjectId":recordIds,
+       "ProjectId":num+1,
        "name": document.getElementById("editProjectInput").value,
     }),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log('data-------'+JSON.stringify(data));
-        location.reload();
+        alert("Added Successfully");
+        window.location.reload();
+        //console.log("Updated Successfully");
+       // location.reload();
+        
       })
       .catch((error) => {
         console.log(error);

@@ -72,6 +72,7 @@
       </div>
     </div>
   </div>
+  <a href="http://localhost:3000/host/users"><button style="width: 100px; background-color: blue; border-radius: 10%;" ><i class="fa-solid fa-arrow-rotate-left"></i>Back</button></a>
 </main>
 <script>
   let AllData = {}
@@ -116,8 +117,10 @@ handleClick=(recordId)=>{
       .then((response) => response.json())
       .then((data) => {
         console.log('data-------'+JSON.stringify(data));
-        location.reload();
+        alert("Deleted Successfully");
+        window.location.reload();
       })
+      
       .catch((error) => {
         console.log(error);
       });
@@ -147,7 +150,9 @@ handleClickModalEdited=(recordId)=>{
       .then((response) => response.json())
       .then((data) => {
         console.log('data-------'+JSON.stringify(data));
-        location.reload();
+        alert("Updated Successfully");
+        window.location.reload();
+       
       })
       .catch((error) => {
         console.log(error);
@@ -182,7 +187,8 @@ console.log('---url--'+url);
       .then((response) => response.json())
       .then((data) => {
         console.log('data-------'+JSON.stringify(data));
-        location.reload();
+        alert("Added Successfully");
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
