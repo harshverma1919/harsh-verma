@@ -89,6 +89,8 @@
       </div>
     </div>
   </div>
+  
+
 </main>
 <script>
   function fetchData() {
@@ -137,24 +139,52 @@ let showData = `<div>
 
 handleClickModalEdited=(recordId)=>{
   fetch(`http://127.0.0.1:8000/api/new_users/${recordId}`, {
-      method: 'Put',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-       "name": document.getElementById("editProjectInput").value,
+    method: 'Put',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      "name": document.getElementById("editProjectInput").value,
     }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('data-------'+JSON.stringify(data));
-        alert("Updated Successfully");
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    console.log('data-------'+JSON.stringify(data));
+    
+    // Set a flag in localStorage to show the message after page reloads
+    localStorage.setItem("showMessage", "true");
+    
+    // Reload the page
+    window.location.reload();
+  })
+  .catch(error => console.log(error));
 }
+
+// Check if the showMessage flag is set in localStorage
+if (localStorage.getItem("showMessage")) {
+  // Remove the flag
+  localStorage.removeItem("showMessage");
+  
+  // Display the success message for 3 seconds
+  var message = document.createElement("div");
+  message.innerHTML = "Edited Successfully!";
+  message.style.position = "fixed";
+  message.style.top = "14%";
+  message.style.left = "20%";
+  message.style.width = "20%";
+  message.style.background = "#4CAF50";
+  message.style.color = "#fff";
+  message.style.padding = "10px";
+  message.style.textAlign = "center";
+  message.style.zIndex = "9999";
+  document.body.appendChild(message);
+
+  setTimeout(function() {
+    document.body.removeChild(message);
+  }, 3000);
+}
+
+
 handleClickModalAdd=(ValueIds)=>{
   document.getElementById('modal-data-edit-btn').style.display = 'none';
 let showData = `<div>
@@ -179,17 +209,43 @@ handleClickModalAdded=(recordIds)=>{
       .then((response) => response.json())
       .then((data) => {
         console.log('data-------'+JSON.stringify(data));
-        alert("Added Successfully");
-        window.location.reload();
-        
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        localStorage.setItem("addMessage", "true");
+    
+    // Reload the page
+    window.location.reload();
+  })
+  .catch(error => console.log(error));
 }
+
+// Check if the showMessage flag is set in localStorage
+if (localStorage.getItem("addMessage")) {
+  // Remove the flag
+  localStorage.removeItem("addMessage");
+  
+  // Display the success message for 3 seconds
+  var addMessage = document.createElement("div");
+  addMessage.innerHTML = "Added Successfully!";
+  addMessage.style.position = "fixed"; // Set position to fixed
+  addMessage.style.top = "55px"; // Adjust top property as needed
+  addMessage.style.left = "20%"; // Adjust left property as needed
+  //addMessage.style.transform = "translateX(-50%)"; // Center horizontally
+  addMessage.style.width = "200px";
+  addMessage.style.background = "#4CAF50";
+  addMessage.style.color = "#fff";
+  addMessage.style.padding = "10px";
+  addMessage.style.textAlign = "center";
+  addMessage.style.zIndex = "9999";
+  document.body.appendChild(addMessage);
+
+  setTimeout(function() {
+    document.body.removeChild(addMessage);
+  }, 3000);
+}
+
+
 handleClick=(recordId)=>{
     localStorage.setItem("recordId",recordId);
-    window.location.pathname="host/user/:userId/projects";
+    window.location.pathname="/users/projects/"+recordId;
     console.log("chlra ");
     
 
