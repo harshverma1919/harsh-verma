@@ -109,7 +109,7 @@
         <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick="handleClickModal(${values.id})">
             <i class="fa-solid fa-eye"></i>
           </button></td>
-          <td><div class="projectDetailBtn"><a href="http://localhost:3000/host/user/:userId/projects?${values.ProjectId}" ><button><i class="fa-solid fa-arrow-right"></i></button></a></div></td>
+          <td><div class="projectDetailBtn"><a href="http://localhost:3000/user/projects?${values.ProjectId}" ><button><i class="fa-solid fa-arrow-right"></i></button></a></div></td>
           
       </tr>`;
       
@@ -142,13 +142,41 @@ handleClickModalEdited=(recordId)=>{
       .then((response) => response.json())
       .then((data) => {
         console.log('data-------'+JSON.stringify(data));
-        alert("Updated Successfully");
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        console.log('data-------'+JSON.stringify(data));
+    
+    // Set a flag in localStorage to show the message after page reloads
+    localStorage.setItem("showMessage", "true");
+    
+    // Reload the page
+    window.location.reload();
+  })
+  .catch(error => console.log(error));
 }
+
+// Check if the showMessage flag is set in localStorage
+if (localStorage.getItem("showMessage")) {
+  // Remove the flag
+  localStorage.removeItem("showMessage");
+  
+  // Display the success message for 3 seconds
+  var message = document.createElement("div");
+  message.innerHTML = "Edited Successfully!";
+  message.style.position = "fixed";
+  message.style.top = "110px";
+  message.style.left = "20%";
+  message.style.width = "20%";
+  message.style.background = "#4CAF50";
+  message.style.color = "#fff";
+  message.style.padding = "10px";
+  message.style.textAlign = "center";
+  message.style.zIndex = "9999";
+  document.body.appendChild(message);
+
+  setTimeout(function() {
+    document.body.removeChild(message);
+  }, 3000);
+}
+
 
 handleClickModalAdd=(ValueIds)=>{
   document.getElementById('modal-data-edit-btn').style.display = 'none';
@@ -178,16 +206,40 @@ handleClickModalAdded=(recordIds)=>{
       .then((response) => response.json())
       .then((data) => {
         console.log('data-------'+JSON.stringify(data));
-        alert("Added Successfully");
-        window.location.reload();
-        //console.log("Updated Successfully");
-       // location.reload();
-        
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        console.log('data-------'+JSON.stringify(data));
+        localStorage.setItem("addMessage", "true");
+    
+    // Reload the page
+    window.location.reload();
+  })
+  .catch(error => console.log(error));
 }
+
+// Check if the showMessage flag is set in localStorage
+if (localStorage.getItem("addMessage")) {
+  // Remove the flag
+  localStorage.removeItem("addMessage");
+  
+  // Display the success message for 3 seconds
+  var addMessage = document.createElement("div");
+  addMessage.innerHTML = "Added Successfully!";
+  addMessage.style.position = "fixed"; // Set position to fixed
+  addMessage.style.top = "110px"; // Adjust top property as needed
+  addMessage.style.left = "20%"; // Adjust left property as needed
+  //addMessage.style.transform = "translateX(-50%)"; // Center horizontally
+  addMessage.style.width = "200px";
+  addMessage.style.background = "#4CAF50";
+  addMessage.style.color = "#fff";
+  addMessage.style.padding = "10px";
+  addMessage.style.textAlign = "center";
+  addMessage.style.zIndex = "9999";
+  document.body.appendChild(addMessage);
+
+  setTimeout(function() {
+    document.body.removeChild(addMessage);
+  }, 3000);
+}
+
 </script>
 </main>
 

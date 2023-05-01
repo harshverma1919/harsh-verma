@@ -37,10 +37,10 @@ db.sequelize.sync()
     res.render('pages/index');
   });
 
-  app.get('/host/users', (req, res) => {
+  app.get('/users', (req, res) => {
     res.render('pages/users');
   })
-  app.get('/host/user/:userId/projects', (req, res) => {
+  app.get('/user/projects', (req, res) => {
     res.render('pages/projects');
   })
   
