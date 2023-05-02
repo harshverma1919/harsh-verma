@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-
+use Carbon\Carbon;
 
 class NewUsersTableSeeder extends Seeder
 {
@@ -17,15 +17,15 @@ class NewUsersTableSeeder extends Seeder
     public function run()
     {
         //
+        $now = Carbon::now();
         DB::table('new_users')->insert([
-            ['name' => 'John Doe'],
-            ['name' => 'Jane Smith'],
-            ['name' => 'Bob Johnson'],
-            ['name' => 'Jhon Snow'],
-            ['name' => 'Raganar Lothbroke'],
-            ['name' => 'Arya Stark'],
-            ['name' => 'Denny'],
-
+            ['name' => 'John Doe', 'created_at' => $now, 'updated_at' => $now],
+            ['name' => 'Jane Smith', 'created_at' => $now, 'updated_at' => $now],
+            ['name' => 'Bob Johnson', 'created_at' => $now, 'updated_at' => $now],
+            ['name' => 'Jhon Snow', 'created_at' => $now, 'updated_at' => $now],
+            ['name' => 'Raganar Lothbroke', 'created_at' => $now, 'updated_at' => $now],
+            ['name' => 'Arya Stark', 'created_at' => $now, 'updated_at' => $now],
+            ['name' => 'Denny', 'created_at' => $now, 'updated_at' => $now],
         ]);
     }
 }
